@@ -241,7 +241,7 @@ async function main() {
         }
       });
     }
-  });
+  }, { timeout: 20_000 });
 }
 
 main()
