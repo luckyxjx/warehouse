@@ -48,7 +48,11 @@ export function errorHandler(error: unknown, _req: Request, res: Response, _next
     success: false,
     error: {
       code: "INTERNAL_SERVER_ERROR",
-      message: "An unexpected error occurred"
+      message: process.env.NODE_ENV === "production"
+        ? "An unexpected error occurred"
+        : error instanceof Error
+          ? error.message
+          : "An unexpected error occurred"
     }
   });
 }
