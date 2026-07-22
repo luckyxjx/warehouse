@@ -43,7 +43,7 @@ export function PurchasesPage() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-2xl font-semibold">Purchases</h1>
+        <h1 className="text-2xl font-semibold">Receiving</h1>
         <p className="text-sm text-muted-foreground">Supplier intake flow with purchase history and stock updates.</p>
       </div>
       <div className="grid gap-4 xl:grid-cols-[420px_1fr]">

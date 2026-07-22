@@ -1,9 +1,9 @@
-# Store Inventory
+# Warehouse Stock Manager
 
-Retail inventory management platform organized as two separate applications:
+Warehouse inventory and fulfillment platform:
 
 - `backend/` - Express, TypeScript, PostgreSQL, Prisma REST API
-- `frontend/` - Next.js frontend app
+- `frontend/` - Next.js warehouse operations app
 
 ## Assessment Scope
 
@@ -11,7 +11,7 @@ This submission completes Tier 1, adds Tier 2 order fulfillment, and includes a 
 
 - Sign up and sign in are implemented end to end.
 - Passwords are hashed with bcrypt and only `passwordHash` is stored.
-- JWT bearer auth protects product, inventory, sales, dashboard, purchase, and report APIs.
+- JWT bearer auth protects product, inventory, dispatch, dashboard, receiving, and report APIs.
 - Product CRUD covers SKU, name, quantity, category, and low-stock threshold.
 - Dashboard flags products where stock is below the low-stock threshold.
 - Client and server validation are both implemented with Zod-backed forms and API validators.
@@ -20,7 +20,7 @@ This submission completes Tier 1, adds Tier 2 order fulfillment, and includes a 
 - Order history records each request, fulfillment status, item quantities, and backordered quantities.
 - Delivery quote calculation supports pincode-derived zones, volumetric weight, simple vehicle capacity splitting, and cheapest-option selection.
 
-Self-service signup creates an admin account so a new evaluator can immediately access the product CRUD workflow required by Tier 1. The seeded employee account is retained for the separate store/PWA view.
+Self-service signup creates an admin account so a new evaluator can immediately access the product CRUD workflow required by Tier 1. The seeded employee account is retained for a lightweight warehouse operator view.
 
 ## Backend
 
@@ -41,8 +41,9 @@ curl http://localhost:3000/health
 
 Default seeded accounts:
 
-- Admin: `admin@example.com` / `admin123`
-- Store operator: `store@example.com` / `store123`
+- Admin: `lucky.admin@stockforge.io` / `LuckydaAdmin@123`
+- Warehouse operator: `toney.ops@stockforge.io` / `Warehouse@123`
+- Warehouse operator: `labubu.floor@stockforge.io` / `Operator@123`
 
 ## Frontend
 
@@ -151,7 +152,7 @@ Implemented:
 - Multi-vehicle splitting when billable weight exceeds one vehicle's capacity
 - Cheapest-option selection with a short justification
 
-Intentionally left out:
+left out:
 
 - Admin-managed warehouse records
 - Persistent zone-rate matrix tables

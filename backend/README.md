@@ -1,6 +1,6 @@
-# Retail Inventory Management Backend
+# Warehouse Stock Manager Backend
 
-Production-ready MVP backend for a small retail inventory management system.
+Production-ready MVP backend for a warehouse stock and fulfillment management system.
 
 ## Stack
 

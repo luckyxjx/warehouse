@@ -4,13 +4,13 @@ import "./globals.css";
 import { AppProviders } from "@/providers/app-providers";
 
 export const metadata: Metadata = {
-  title: "RetailOps",
-  description: "Manage your store — record sales, check stock, track daily performance.",
+  title: "WarehouseOps",
+  description: "Manage warehouse stock, fulfillment, replenishment, and delivery quotes.",
   manifest: "/manifest.json",
   appleWebApp: {
     capable: true,
     statusBarStyle: "black-translucent",
-    title: "RetailOps"
+    title: "WarehouseOps"
   },
   icons: {
     icon: "/icons/icon-192.png",

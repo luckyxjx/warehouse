@@ -44,7 +44,7 @@ export default function LoginPage() {
             <Boxes className="h-5 w-5" />
           </div>
           <CardTitle className="text-2xl">Sign in</CardTitle>
-          <CardDescription>Access retail operations, stock controls, and analytics.</CardDescription>
+          <CardDescription>Access warehouse stock controls, fulfillment, and analytics.</CardDescription>
         </CardHeader>
         <CardContent>
           <form className="space-y-4" onSubmit={handleSubmit(onSubmit)}>

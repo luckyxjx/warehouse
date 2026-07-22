@@ -24,8 +24,8 @@ export function TopNavbar({ onMenuClick }: { onMenuClick: () => void }) {
         <span className="sr-only">Open menu</span>
       </Button>
       <div className="hidden lg:block">
-        <p className="text-sm font-medium">Operations Console</p>
-        <p className="text-xs text-muted-foreground">Stock, sales, and margin intelligence</p>
+        <p className="text-sm font-medium">Warehouse Console</p>
+        <p className="text-xs text-muted-foreground">Stock, fulfillment, and replenishment control</p>
       </div>
       <div className="flex items-center gap-2">
         <Button

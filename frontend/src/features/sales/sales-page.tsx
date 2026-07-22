@@ -73,8 +73,8 @@ export function SalesPage() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-2xl font-semibold">Sales</h1>
-        <p className="text-sm text-muted-foreground">POS-style checkout connected to the sale transaction API.</p>
+        <h1 className="text-2xl font-semibold">Dispatch</h1>
+        <p className="text-sm text-muted-foreground">Warehouse issue flow connected to the stock deduction API.</p>
       </div>
       <div className="grid gap-4 xl:grid-cols-[1fr_420px]">
         <Card>
@@ -153,7 +153,7 @@ export function SalesPage() {
               disabled={!cart.length || saleMutation.isPending}
               onClick={() => saleMutation.mutate({ items: cart.map((item) => ({ productId: item.product.id, quantity: item.quantity })) })}
             >
-              Complete Sale
+              Complete Dispatch
             </Button>
           </CardContent>
         </Card>

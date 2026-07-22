@@ -1,7 +1,7 @@
 {
-  "name": "RetailOps Store",
-  "short_name": "RetailOps",
-  "description": "Manage your store — record sales, check stock, track daily performance.",
+  "name": "WarehouseOps",
+  "short_name": "WarehouseOps",
+  "description": "Manage warehouse stock, fulfillment, replenishment, and delivery quotes.",
   "start_url": "/store",
   "scope": "/",
   "display": "standalone",

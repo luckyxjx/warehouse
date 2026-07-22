@@ -16,8 +16,8 @@ export function Sidebar({ onNavigate }: { onNavigate?: () => void }) {
           <Boxes className="h-5 w-5" />
         </div>
         <div>
-          <p className="text-sm font-semibold">RetailOps</p>
-          <p className="text-xs text-muted-foreground">Inventory Platform</p>
+          <p className="text-sm font-semibold">WarehouseOps</p>
+          <p className="text-xs text-muted-foreground">Stock Control Platform</p>
         </div>
       </div>
       <nav className="flex-1 space-y-1 p-3">

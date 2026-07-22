@@ -45,7 +45,7 @@ export default function SignupPage() {
             <Boxes className="h-5 w-5" />
           </div>
           <CardTitle className="text-2xl">Sign up</CardTitle>
-          <CardDescription>Create an account to manage products, stock, and sales.</CardDescription>
+          <CardDescription>Create an account to manage warehouse products, stock, and fulfillment.</CardDescription>
         </CardHeader>
         <CardContent>
           <form className="space-y-4" onSubmit={handleSubmit(onSubmit)}>

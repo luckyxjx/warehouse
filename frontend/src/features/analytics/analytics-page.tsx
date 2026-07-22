@@ -30,7 +30,7 @@ export function AnalyticsPage() {
     <div className="space-y-6">
       <div>
         <h1 className="text-2xl font-semibold">Analytics</h1>
-        <p className="text-sm text-muted-foreground">Business intelligence for sales, stock risk, and product performance.</p>
+        <p className="text-sm text-muted-foreground">Warehouse intelligence for dispatch activity, stock risk, and SKU performance.</p>
       </div>
       <div className="grid gap-4 md:grid-cols-3">
         <KpiCard title="Top Sellers" value={String(topQuery.data?.length ?? 0)} icon={Trophy} />
@@ -38,7 +38,7 @@ export function AnalyticsPage() {
         <KpiCard title="Low Stock Alerts" value={String(overviewQuery.data?.lowStockProducts.length ?? 0)} icon={AlertTriangle} />
       </div>
       <div className="grid gap-4 xl:grid-cols-2">
-        <ChartCard title="Sales Trends">
+        <ChartCard title="Dispatch Trends">
           <div className="h-80">
             <ResponsiveContainer width="100%" height="100%">
               <LineChart data={trends}>
@@ -82,7 +82,7 @@ export function AnalyticsPage() {
                 <span className="font-semibold">{product.unitsSold}</span>
               </div>
             ))}
-            {!topQuery.data?.length ? <EmptyState title="No sales ranking yet" /> : null}
+            {!topQuery.data?.length ? <EmptyState title="No dispatch ranking yet" /> : null}
           </div>
         </ChartCard>
         <ChartCard title="Product Performance">

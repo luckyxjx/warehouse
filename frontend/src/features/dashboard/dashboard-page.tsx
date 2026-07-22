@@ -28,13 +28,13 @@ export function DashboardPage() {
     <div className="space-y-6">
       <div>
         <h1 className="text-2xl font-semibold">Dashboard</h1>
-        <p className="text-sm text-muted-foreground">Inventory health, sales activity, and profit signals.</p>
+        <p className="text-sm text-muted-foreground">Inventory health, fulfillment activity, and stock risk signals.</p>
       </div>
       <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-5">
         <KpiCard title="Total Products" value={formatNumber(data?.totalProducts)} icon={Package} />
         <KpiCard title="Inventory Value" value={formatCurrency(data?.totalInventoryValue)} icon={DollarSign} />
-        <KpiCard title="Today's Sales" value={formatCurrency(data?.todaySales)} icon={TrendingUp} />
-        <KpiCard title="Today's Profit" value={formatCurrency(data?.todayProfit)} icon={DollarSign} />
+        <KpiCard title="Today's Dispatch Value" value={formatCurrency(data?.todaySales)} icon={TrendingUp} />
+        <KpiCard title="Today's Margin" value={formatCurrency(data?.todayProfit)} icon={DollarSign} />
         <KpiCard title="Low Stock Products" value={formatNumber(data?.lowStockProducts.length)} icon={AlertTriangle} />
       </div>
       <div className="grid gap-4 xl:grid-cols-3">
@@ -64,7 +64,7 @@ export function DashboardPage() {
             </ResponsiveContainer>
           </div>
         </ChartCard>
-        <ChartCard title="Sales Trend">
+        <ChartCard title="Dispatch Trend">
           <div className="h-72">
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={trends}>
