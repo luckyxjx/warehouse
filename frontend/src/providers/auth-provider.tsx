@@ -22,19 +22,20 @@ const AuthContext = createContext<AuthContextValue | null>(null);
 export function AuthProvider({ children }: { children: ReactNode }) {
   const router = useRouter();
   const queryClient = useQueryClient();
-  const [hasToken, setHasToken] = useState(() => {
-    const token = getToken();
-    return Boolean(token && !isTokenExpired(token));
-  });
+  // Starts true — blocks any redirect until client-side localStorage is read
+  const [isInitializing, setIsInitializing] = useState(true);
+  const [hasToken, setHasToken] = useState(false);
 
   useEffect(() => {
+    // This runs only on the client, after hydration
     const token = getToken();
     if (token && isTokenExpired(token)) {
       clearToken();
       setHasToken(false);
-      return;
+    } else {
+      setHasToken(Boolean(token));
     }
-    setHasToken(Boolean(token));
+    setIsInitializing(false); // ← unblock routing guard
   }, []);
 
   useEffect(() => {
@@ -65,7 +66,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     () => ({
       user: user ?? null,
       isAuthenticated: Boolean(hasToken && user),
-      isLoading: hasToken && isLoading,
+      isLoading: isInitializing || (hasToken && isLoading),
       login: async (input) => {
         const result = await loginApi(input);
         setToken(result.token);
@@ -89,7 +90,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         router.replace("/login");
       }
     }),
-    [hasToken, isLoading, queryClient, router, user]
+    [hasToken, isInitializing, isLoading, queryClient, router, user]
   );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
