@@ -1,0 +1,106 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: 210 20% 98%;
+  --foreground: 222 47% 11%;
+  --card: 0 0% 100%;
+  --card-foreground: 222 47% 11%;
+  --primary: 201 96% 32%;
+  --primary-foreground: 0 0% 100%;
+  --secondary: 168 55% 92%;
+  --secondary-foreground: 174 84% 20%;
+  --muted: 210 24% 94%;
+  --muted-foreground: 215 16% 42%;
+  --accent: 43 96% 56%;
+  --accent-foreground: 30 64% 17%;
+  --destructive: 0 72% 45%;
+  --destructive-foreground: 0 0% 100%;
+  --border: 214 18% 86%;
+  --input: 214 18% 86%;
+  --ring: 201 96% 32%;
+  --radius: 0.5rem;
+}
+
+.dark {
+  --background: 222 34% 8%;
+  --foreground: 210 30% 96%;
+  --card: 222 30% 12%;
+  --card-foreground: 210 30% 96%;
+  --primary: 196 80% 48%;
+  --primary-foreground: 222 47% 11%;
+  --secondary: 174 43% 18%;
+  --secondary-foreground: 168 70% 90%;
+  --muted: 222 24% 16%;
+  --muted-foreground: 214 18% 70%;
+  --accent: 43 92% 56%;
+  --accent-foreground: 30 64% 17%;
+  --destructive: 0 67% 48%;
+  --destructive-foreground: 0 0% 100%;
+  --border: 222 18% 22%;
+  --input: 222 18% 22%;
+  --ring: 196 80% 48%;
+}
+
+* {
+  @apply border-border;
+}
+
+body {
+  @apply bg-background text-foreground antialiased;
+}
+
+button,
+input,
+select,
+textarea {
+  letter-spacing: 0;
+}
+
+/* ── Print / Save as PDF ────────────────────────────────────────────────── */
+@media print {
+  /* Hide everything except main content */
+  aside,
+  header,
+  nav,
+  footer {
+    display: none !important;
+  }
+
+  /* Remove sidebar offset so content fills the page */
+  .lg\:pl-64 {
+    padding-left: 0 !important;
+  }
+
+  /* Hide panels marked print:hidden */
+  .print\:hidden {
+    display: none !important;
+  }
+
+  /* Reset card backgrounds for print */
+  .print\:bg-white {
+    background-color: white !important;
+    color: black !important;
+  }
+
+  .print\:border-0 {
+    border: none !important;
+  }
+
+  .print\:shadow-none {
+    box-shadow: none !important;
+  }
+
+  body {
+    font-size: 12pt;
+    color: #000;
+    background: white;
+  }
+
+  /* Avoid page breaks inside cards */
+  .rounded-lg,
+  .card {
+    page-break-inside: avoid;
+  }
+}

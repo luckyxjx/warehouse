@@ -1,0 +1,158 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  ADMIN
+  EMPLOYEE
+}
+
+enum ReportStatus {
+  DRAFT
+  FINALIZED
+}
+
+enum InventoryAction {
+  PURCHASE
+  SALE
+  ORDER_FULFILLMENT
+  ADJUSTMENT
+  PRODUCT_CREATED
+  PRODUCT_DELETED
+}
+
+enum OrderStatus {
+  FULFILLED
+  PARTIALLY_FULFILLED
+  BACKORDERED
+}
+
+model User {
+  id           String   @id @default(uuid())
+  name         String
+  email        String   @unique
+  passwordHash String
+  role         Role     @default(EMPLOYEE)
+  createdAt    DateTime @default(now())
+}
+
+model Product {
+  id            String         @id @default(uuid())
+  name          String
+  sku           String         @unique
+  category      String
+  purchasePrice Decimal        @db.Decimal(12, 2)
+  sellingPrice  Decimal        @db.Decimal(12, 2)
+  stock         Int            @default(0)
+  minStock      Int            @default(0)
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+  saleItems     SaleItem[]
+  orderItems    OrderItem[]
+  purchases     Purchase[]
+  inventoryLogs InventoryLog[]
+
+  @@index([name])
+  @@index([category])
+}
+
+model Sale {
+  id          String     @id @default(uuid())
+  totalAmount Decimal    @db.Decimal(12, 2)
+  totalProfit Decimal    @db.Decimal(12, 2)
+  createdAt   DateTime   @default(now())
+  items       SaleItem[]
+
+  @@index([createdAt])
+}
+
+model SaleItem {
+  id            String  @id @default(uuid())
+  saleId        String
+  productId     String
+  quantity      Int
+  sellingPrice  Decimal @db.Decimal(12, 2)
+  purchasePrice Decimal @db.Decimal(12, 2)
+  sale          Sale    @relation(fields: [saleId], references: [id], onDelete: Cascade)
+  product       Product @relation(fields: [productId], references: [id], onDelete: Restrict)
+
+  @@index([saleId])
+  @@index([productId])
+}
+
+model Order {
+  id                 String      @id @default(uuid())
+  status             OrderStatus
+  totalRequested     Int
+  totalFulfilled     Int
+  totalBackordered   Int
+  createdAt          DateTime    @default(now())
+  items              OrderItem[]
+
+  @@index([createdAt])
+  @@index([status])
+}
+
+model OrderItem {
+  id                  String  @id @default(uuid())
+  orderId             String
+  productId           String
+  requestedQuantity   Int
+  fulfilledQuantity   Int
+  backorderedQuantity Int
+  unitPrice           Decimal @db.Decimal(12, 2)
+  order               Order   @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  product             Product @relation(fields: [productId], references: [id], onDelete: Restrict)
+
+  @@index([orderId])
+  @@index([productId])
+}
+
+model Purchase {
+  id           String   @id @default(uuid())
+  productId    String
+  supplierName String   @default("Default Supplier")
+  quantity     Int
+  cost         Decimal  @db.Decimal(12, 2)
+  createdAt    DateTime @default(now())
+  product      Product  @relation(fields: [productId], references: [id], onDelete: Restrict)
+
+  @@index([productId])
+  @@index([createdAt])
+}
+
+model InventoryLog {
+  id             String          @id @default(uuid())
+  productId      String
+  action         InventoryAction
+  quantityChange Int
+  previousStock  Int
+  newStock       Int
+  createdAt      DateTime        @default(now())
+  product        Product         @relation(fields: [productId], references: [id], onDelete: Restrict)
+
+  @@index([productId])
+  @@index([createdAt])
+  @@index([action])
+}
+
+model MonthlyReport {
+  id          String       @id @default(uuid())
+  year        Int
+  month       Int
+  status      ReportStatus @default(DRAFT)
+  notes       String?      @db.Text
+  pdfPath     String?
+  pdfFileName String?
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+  finalizedAt DateTime?
+
+  @@unique([year, month])
+  @@index([year, month])
+}

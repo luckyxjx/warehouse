@@ -1,0 +1,10 @@
+node_modules
+dist
+.next
+out
+.env
+.env.local
+.DS_Store
+coverage
+# PDF uploads — stored on server, not in version control
+backend/uploads/reports/*.pdf
