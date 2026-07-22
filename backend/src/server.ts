@@ -1,3 +1,5 @@
+/// <reference path="./types/express.d.ts" />
+
 import { app } from "./backendApp";
 import { env } from "./config/env";
 import { prisma } from "./config/prisma";
