@@ -12,14 +12,24 @@ export function useProtectedRoute() {
   useEffect(() => {
     if (isLoading) return;
 
-    // Redirect unauthenticated users to login
-    if (!isAuthenticated && pathname !== "/login") {
+    const isAuthRoute = pathname === "/login" || pathname === "/signup";
+
+    // Redirect unauthenticated users away from protected pages to /login
+    if (!isAuthenticated && !isAuthRoute) {
       router.replace("/login");
       return;
     }
 
     if (isAuthenticated && user) {
-      const isAdminRoute = pathname.startsWith("/dashboard") ||
+      // Redirect authenticated users away from auth pages to their main view
+      if (isAuthRoute) {
+        const destination = user.role === "ADMIN" ? "/dashboard" : "/store";
+        router.replace(destination);
+        return;
+      }
+
+      const isAdminRoute =
+        pathname.startsWith("/dashboard") ||
         pathname.startsWith("/products") ||
         pathname.startsWith("/inventory") ||
         pathname.startsWith("/orders") ||
