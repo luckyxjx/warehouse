@@ -3,7 +3,6 @@ import { z } from "zod";
 
 dotenv.config();
 
-// Treat empty strings as undefined so Vercel's empty env var injections don't fail Zod validation
 const emptyToUndefined = z.string().transform((v) => (v.trim() === "" ? undefined : v));
 
 const envSchema = z.object({
@@ -18,10 +17,5 @@ const envSchema = z.object({
   CORS_ORIGINS: z.string().optional(),
 });
 
-// Debug: log which env vars are present (values redacted) to help diagnose Vercel issues
-if (process.env.NODE_ENV === "production") {
-  const keys = ["DATABASE_URL", "JWT_SECRET", "FRONTEND_URL", "CORS_ORIGINS"];
-  console.log("[env] Loaded vars:", keys.map((k) => `${k}=${process.env[k] ? "✓" : "✗ MISSING"}`).join(", "));
-}
 
 export const env = envSchema.parse(process.env);

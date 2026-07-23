@@ -22,12 +22,10 @@ const AuthContext = createContext<AuthContextValue | null>(null);
 export function AuthProvider({ children }: { children: ReactNode }) {
   const router = useRouter();
   const queryClient = useQueryClient();
-  // Starts true — blocks any redirect until client-side localStorage is read
   const [isInitializing, setIsInitializing] = useState(true);
   const [hasToken, setHasToken] = useState(false);
 
   useEffect(() => {
-    // This runs only on the client, after hydration
     const token = getToken();
     if (token && isTokenExpired(token)) {
       clearToken();
@@ -35,7 +33,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     } else {
       setHasToken(Boolean(token));
     }
-    setIsInitializing(false); // ← unblock routing guard
+    setIsInitializing(false);
   }, []);
 
   useEffect(() => {
@@ -72,7 +70,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         setToken(result.token);
         setHasToken(true);
         queryClient.setQueryData(["auth", "me"], result.user);
-        // Role-based redirect: admin → full dashboard, employee → simple store UI
         const destination = result.user.role === "ADMIN" ? "/dashboard" : "/store";
         router.replace(destination);
       },

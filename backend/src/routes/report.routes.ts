@@ -9,7 +9,6 @@ import { validate } from "../middleware/validate";
 import { asyncHandler } from "../utils/asyncHandler";
 import { monthlyReportSchema } from "../validators/report.validator";
 
-// ── Multer: store PDFs in uploads/reports/ ────────────────────────────────────
 const storage = multer.diskStorage({
   destination(_req, _file, cb) {
     cb(null, path.join(__dirname, "../../uploads/reports"));
@@ -33,13 +32,11 @@ const uploadPdf = multer({
   }
 });
 
-// ── Router ────────────────────────────────────────────────────────────────────
 const router = Router();
 const controller = new ReportController();
 
 router.use(requireAuth);
 
-// Existing
 router.get(
   "/monthly",
   validate(monthlyReportSchema),
@@ -47,10 +44,8 @@ router.get(
 );
 router.get("/product-performance", asyncHandler(controller.productPerformance.bind(controller)));
 
-// NEW: full data export (JSON or CSV download)
 router.get("/export", asyncHandler(controller.exportData.bind(controller)));
 
-// NEW: finalize + PDF upload (ADMIN only)
 router.post(
   "/finalize",
   requireRole(Role.ADMIN),
@@ -58,10 +53,8 @@ router.post(
   asyncHandler(controller.finalizeReport.bind(controller))
 );
 
-// NEW: get finalized report for retailer view
 router.get("/finalized", asyncHandler(controller.getFinalizedReport.bind(controller)));
 
-// NEW: stream PDF download
 router.get("/pdf/:year/:month", asyncHandler(controller.downloadPdf.bind(controller)));
 
 export { router as reportRoutes };

@@ -14,7 +14,6 @@ export class NotificationService {
       year: "numeric"
     });
 
-    // Parallel fetch: sales summary, top products, low stock
     const [salesAgg, topSaleItems, lowStockProducts] = await Promise.all([
       prisma.sale.aggregate({
         where: { createdAt: { gte: start, lt: end } },
@@ -28,7 +27,6 @@ export class NotificationService {
         orderBy: { _sum: { quantity: "desc" } },
         take: 5
       }),
-      // Raw query: products where stock <= minStock
       prisma.$queryRaw<Array<{ name: string; stock: number; minStock: number }>>`
         SELECT name, stock, "minStock"
         FROM "Product"
@@ -39,7 +37,6 @@ export class NotificationService {
     ]);
 
 
-    // Resolve product names for top sellers
     const productIds = topSaleItems.map((i) => i.productId);
     const products = await prisma.product.findMany({
       where: { id: { in: productIds } },
@@ -52,7 +49,6 @@ export class NotificationService {
     const txCount = salesAgg._count.id;
     const unitsSold = topSaleItems.reduce((sum, i) => sum + (i._sum.quantity ?? 0), 0);
 
-    // Build top sellers section
     const topSellersText =
       topSaleItems.length > 0
         ? topSaleItems
@@ -63,7 +59,6 @@ export class NotificationService {
             .join("\n")
         : "No sales recorded today.";
 
-    // Build low stock section
     const lowStockText =
       lowStockProducts.length > 0
         ? lowStockProducts
